@@ -5,7 +5,8 @@
 # Description: Solver for 9 x 9 type Sudoku problems.
 # Fill the text file 'matrix.txt' by the given digits for fields in corresponding 
 # positions, and by zeroes if fields are empty.
-# To solve a Suduku type with four 3 x 3 "grey square" zones, supply any extra argument. 
+# To solve a 9 x 9 type Suduku problem with additional four 3 x 3 "grey square" zones, 
+# supply any extra argument. 
 # 
 ###############################################################################
 #

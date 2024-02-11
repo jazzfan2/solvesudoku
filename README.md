@@ -10,7 +10,7 @@ if fields are empty, and place this file into the same directory as the program.
 
 Then supply the simple command: solvesudoku.py
 
-In order to solve a Suduku type with four additional 3 x 3 "grey square" zones, supply any extra argument to above command. 
+In order to solve a 9 x 9 type Suduku problem with four additional 3 x 3 "grey square" zones, supply any extra argument to above command. 
 
 # Author:
 Written by Rob Toscani (rob_toscani@yahoo.com).
