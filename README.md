@@ -6,7 +6,9 @@ solvesudoku.py solves 9 x 9 type Sudoku problems by processing a text file with 
 
 # How to Use Your Project:
 Fill the text file 'matrix.txt' by the given digits for fields in corresponding positions, and by zeroes 
-if fields are empty, and supply the simple command: solvesudoku.py
+if fields are empty, and place this file in the same directory as the program.
+
+Then supply the simple command: solvesudoku.py
 
 In order to solve a Suduku type with four 3 x 3 "grey square" zones, supply any extra argument to the 
 command. 
