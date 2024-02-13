@@ -1,4 +1,4 @@
-# Project’s Title
+# Name: solvesudoku.py
 solvesudoku.py - A solver for 9 x 9 type Sudoku problems.
 
 # Description:
