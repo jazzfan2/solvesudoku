@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # Name  : solvesudoku.py
 # Author: Rob Toscani
 # Date  : 15-01-2017
@@ -35,23 +35,23 @@ alldigits = set([1,2,3,4,5,6,7,8,9])
 solutions = set()
 #
 def view(grid):
-    for q in xrange(9):
-        print grid[q]
+    for q in range(9):
+        print(grid[q])
     time.sleep(0.02)
     os.system('clear')
 #
 def solve(grid,depth,option,i_min_options,j_min_options):
-    grid = [list(x) for x in grid]					# Diep kopieren!
+    grid = [list(x) for x in grid]					# Diep kopiëren!
     if depth > 0:
         grid[i_min_options][j_min_options] = option
     zerocount_prev = 100
     min_options = alldigits
     while True:
-#        view(grid)
+#       view(grid)
         zerocount = 0
         string = ""
-        for i in xrange(9):
-            for j in xrange(9):
+        for i in range(9):
+            for j in range(9):
                 string += str(grid[i][j])
                 if grid[i][j] == 0:
                     zerocount += 1
@@ -59,16 +59,16 @@ def solve(grid,depth,option,i_min_options,j_min_options):
                     hset = set()
                     sqset = set()
                     gsqset = set()
-                    for x in xrange(9):
+                    for x in range(9):
                         vset.add(grid[x][j])
                         hset.add(grid[i][x])
-                    for p in xrange(i/3*3,i/3*3+3):
-                        for q in xrange(j/3*3,j/3*3+3):
+                    for p in range(i//3*3,i//3*3+3):
+                        for q in range(j//3*3,j//3*3+3):
                             sqset.add(grid[p][q])
                     if len(sys.argv) > 1:
                         if i not in (0,4,8) and j not in (0,4,8):
-                            for p in xrange(i/4*4+1,i/4*4+4):
-                                for q in xrange(j/4*4+1,j/4*4+4):
+                            for p in range(i//4*4+1,i//4*4+4):
+                                for q in range(j//4*4+1,j//4*4+4):
                                     gsqset.add(grid[p][q])
                     options = alldigits - (vset | hset | sqset | gsqset)
                     if len(options) == 1:
@@ -82,8 +82,8 @@ def solve(grid,depth,option,i_min_options,j_min_options):
                             j_min_options = j
         if zerocount == 0:
             solutions.add(string) 
-            for i in xrange(9):
-                print grid[i]
+            for i in range(9):
+                print(grid[i])
             print; return			# Voor alle oplossingen (dit kunnen er > 100000 zijn !).
 #            sys.exit()				# Voor alleen de eerste oplossing.
         elif zerocount == zerocount_prev:
@@ -105,5 +105,5 @@ for line in f.readlines():
         solve(grid,0,0,0,0)
 f.close()
 # print solutions
-print len(solutions)				# Aantal oplossingen
+print(len(solutions))				# Aantal oplossingen
 
