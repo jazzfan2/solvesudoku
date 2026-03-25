@@ -42,7 +42,7 @@ def view(grid):
     os.system('clear')
  
 def solve(grid,depth,option,i_min_options,j_min_options):
-    grid = [list(x) for x in grid]					# Diep kopiëren!
+    grid = [list(x) for x in grid]					# Deep copying!
     if depth > 0:
         grid[i_min_options][j_min_options] = option
     zerocount_prev = 100
@@ -85,8 +85,8 @@ def solve(grid,depth,option,i_min_options,j_min_options):
             solutions.add(string) 
             for i in range(9):
                 print(grid[i])
-            print; return			# Voor alle oplossingen (dit kunnen er > 100000 zijn !).
-#            sys.exit()				# Voor alleen de eerste oplossing.
+            print; return			# For all solutions (total number could exceed 100000 !)
+#            sys.exit()				# Only for the first solution
         elif zerocount == zerocount_prev:
             depth_plus1 = depth + 1
             for option in min_options:
@@ -106,5 +106,5 @@ for line in f.readlines():
         solve(grid,0,0,0,0)
 f.close()
 # print solutions
-print(len(solutions))				# Aantal oplossingen
+print(len(solutions))				# Number of solutions
 
