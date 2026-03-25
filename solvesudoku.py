@@ -26,20 +26,21 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-#
+
+
 import sys
 import os
 import time
-#
+ 
 alldigits = set([1,2,3,4,5,6,7,8,9])
 solutions = set()
-#
+ 
 def view(grid):
     for q in range(9):
         print(grid[q])
     time.sleep(0.02)
     os.system('clear')
-#
+ 
 def solve(grid,depth,option,i_min_options,j_min_options):
     grid = [list(x) for x in grid]					# Diep kopiëren!
     if depth > 0:
