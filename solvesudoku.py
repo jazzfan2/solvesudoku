@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Name  : solvesudoku.py
 # Author: Rob Toscani
-# Date  : 15-01-2017
+# Date  : 13-11-2026
 # Description: Solver for 9 x 9 type Sudoku problems.
 # Fill the text file 'matrix.txt' by the given digits for fields in corresponding 
 # positions, and by zeroes if fields are empty.
@@ -10,7 +10,7 @@
 # 
 ###############################################################################
 #
-# Copyright (C) 2024 Rob Toscani <rob_toscani@yahoo.com>
+# Copyright (C) 2026 Rob Toscani <rob_toscani@yahoo.com>
 #
 # solvesudoku.py is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,64 +29,63 @@
 
 
 import sys
-import os
-import time
  
 alldigits = set([1,2,3,4,5,6,7,8,9])
-solutions = set()
+solutions = 0
  
-def view(grid):
-    for q in range(9):
-        print(grid[q])
-    time.sleep(0.02)
-    os.system('clear')
+def duplicates(list_of_lists):
+    for lis in list_of_lists:
+        lis = [x for x in lis if x != 0]
+        if len(lis) != len(set(lis)):
+            return True
+    return False
  
 def solve(grid,depth,option,i_min_options,j_min_options):
-    grid = [list(x) for x in grid]					# Deep copying!
+    global solutions
+    grid = [list(x) for x in grid]  # Deep copying!
     if depth > 0:
         grid[i_min_options][j_min_options] = option
     zerocount_prev = 100
     min_options = alldigits
     while True:
-#       view(grid)
         zerocount = 0
-        string = ""
         for i in range(9):
             for j in range(9):
-                string += str(grid[i][j])
                 if grid[i][j] == 0:
                     zerocount += 1
-                    vset = set()
-                    hset = set()
-                    sqset = set()
-                    gsqset = set()
+                    vlist   = []
+                    hlist   = []
+                    sqlist  = []
+                    gsqlist = []
                     for x in range(9):
-                        vset.add(grid[x][j])
-                        hset.add(grid[i][x])
+                        vlist.append(grid[x][j])
+                        hlist.append(grid[i][x])
                     for p in range(i//3*3,i//3*3+3):
                         for q in range(j//3*3,j//3*3+3):
-                            sqset.add(grid[p][q])
+                            sqlist.append(grid[p][q])
                     if len(sys.argv) > 1:
                         if i not in (0,4,8) and j not in (0,4,8):
                             for p in range(i//4*4+1,i//4*4+4):
                                 for q in range(j//4*4+1,j//4*4+4):
-                                    gsqset.add(grid[p][q])
-                    options = alldigits - (vset | hset | sqset | gsqset)
+                                    gsqlist.append(grid[p][q])
+                    if duplicates([vlist, hlist, sqlist, gsqlist]):
+                        return
+                    options = alldigits - set(vlist + hlist + sqlist + gsqlist)
                     if len(options) == 1:
-                        grid[i][j] = int(list(options)[0])
+                        (grid[i][j],) = options
                     elif len(options) == 0:
                         return
                     else:
-                         if len(options) < len(min_options):
+                        if len(options) < len(min_options):
                             min_options = set(options)
                             i_min_options = i
                             j_min_options = j
         if zerocount == 0:
-            solutions.add(string) 
+            solutions += 1 
             for i in range(9):
                 print(grid[i])
-            print; return			# For all solutions (total number could exceed 100000 !)
-#            sys.exit()				# Only for the first solution
+            print(); return         # For all solutions (total number could exceed 100000 !)
+#           sys.exit()              # Only for the first solution
         elif zerocount == zerocount_prev:
             depth_plus1 = depth + 1
             for option in min_options:
@@ -105,6 +104,6 @@ for line in f.readlines():
     if count == 9:
         solve(grid,0,0,0,0)
 f.close()
-# print solutions
-print(len(solutions))				# Number of solutions
+# Print number of solutions:
+print(solutions)
 
