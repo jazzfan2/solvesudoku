@@ -33,7 +33,6 @@ import sys
 alldigits = set([1,2,3,4,5,6,7,8,9])
 solutions = 0
 
-
 # Determine all possible digits for cell, given digits in its row, column, square(s):
 def get_options(i, j, grid):
     column   = []
