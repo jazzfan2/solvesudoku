@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Name  : solvesudoku.py
+# Name  : solvesudoku_.py
 # Author: Rob Toscani
 # Date  : 17-11-2026
 # Description: Solver for 9 x 9 type Sudoku problems.
@@ -29,6 +29,8 @@
 
 
 import sys
+import os
+import time
 
 alldigits = set([1,2,3,4,5,6,7,8,9])
 solutions = 0
@@ -113,6 +115,13 @@ def solve(grid, option, i_option, j_option, zerocount):
                             least_options = set(options)
                             i_least_options = i
                             j_least_options = j
+
+#       Uncomment to see process steps:
+#       for i in range(9):
+#           print(grid[i])
+#       time.sleep(0.1)
+#       os.system('clear')
+
         if zerocount == 0:
             # No zeros present anymore, so if end test passes we have a (new) solution!
             if end_test(grid):
@@ -121,6 +130,8 @@ def solve(grid, option, i_option, j_option, zerocount):
                     # Print solved grid solution:
                     print(grid[i])
                 print()
+#               time.sleep(2)
+#               os.system('clear')
 #               Uncomment if only the first solution is desired:
 #               sys.exit()
 #           To next solution (total number could exceed 100000 !):
