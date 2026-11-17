@@ -34,25 +34,6 @@ alldigits = set([1,2,3,4,5,6,7,8,9])
 solutions = 0
 
 
-# Test if none of the columns, rows, squares & graysquares contain duplicates:
-def end_test(grid):
-    columns     = [ [] for x in range(9) ]
-    rows        = [ [] for x in range(9) ]
-    squares     = [ [] for x in range(9) ]
-    graysquares = [ [] for x in range(4) ]
-    for i in range(9):
-        for j in range(9):
-            columns[j].append(grid[i][j])
-            rows[i].append(grid[i][j])
-            squares[((i>2)+(i>5))*3+(j>2)+(j>5)].append(grid[i][j])
-            if i not in (0,4,8) and j not in (0,4,8):
-                graysquares[(i>4)*2+(j>4)].append(grid[i][j])
-    for lis in columns + rows + squares + graysquares:
-        if len(lis) != len(set(lis)):
-            return False
-    return True
-
-
 # Determine all possible digits for cell, given digits in its row, column, square(s):
 def get_options(i, j, grid):
     column   = []
@@ -78,6 +59,25 @@ def get_options(i, j, grid):
                     graysquare.append(grid[p][q])
     # Return set of digits left as possible options for given cell:
     return alldigits - set(column + row + square + graysquare)
+
+
+# Test if none of the columns, rows, squares & graysquares contain duplicates:
+def end_test(grid):
+    columns     = [ [] for x in range(9) ]
+    rows        = [ [] for x in range(9) ]
+    squares     = [ [] for x in range(9) ]
+    graysquares = [ [] for x in range(4) ]
+    for i in range(9):
+        for j in range(9):
+            columns[j].append(grid[i][j])
+            rows[i].append(grid[i][j])
+            squares[((i>2)+(i>5))*3+(j>2)+(j>5)].append(grid[i][j])
+            if i not in (0,4,8) and j not in (0,4,8):
+                graysquares[(i>4)*2+(j>4)].append(grid[i][j])
+    for lis in columns + rows + squares + graysquares:
+        if len(lis) != len(set(lis)):
+            return False
+    return True
 
 
 # Solve current grid, given zero count, digit option & indices of cell in question:
