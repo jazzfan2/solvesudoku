@@ -3,11 +3,11 @@
 # Author: Rob Toscani
 # Date  : 16-11-2026
 # Description: Solver for 9 x 9 type Sudoku problems.
-# Fill the text file 'matrix.txt' by the given digits for fields in corresponding 
+# Fill the text file 'matrix.txt' by the given digits for fields in corresponding
 # positions, and by zeros if fields are empty.
-# To solve a 9 x 9 type Suduku problem with additional four 3 x 3 "grey square" zones, 
-# supply any extra argument. 
-# 
+# To solve a 9 x 9 type Suduku problem with additional four 3 x 3 "grey square" zones,
+# supply any extra argument.
+#
 ###############################################################################
 #
 # Copyright (C) 2026 Rob Toscani <rob_toscani@yahoo.com>
@@ -29,35 +29,55 @@
 
 
 import sys
- 
+
 alldigits = set([1,2,3,4,5,6,7,8,9])
 solutions = 0
 
+
+# Test if none of the columns, rows, squares & graysquares contain duplicates:
+def end_test(grid):
+    columns     = [ [] for x in range(9) ]
+    rows        = [ [] for x in range(9) ]
+    squares     = [ [] for x in range(9) ]
+    graysquares = [ [] for x in range(4) ]
+    for i in range(9):
+        for j in range(9):
+            columns[j].append(grid[i][j])
+            rows[i].append(grid[i][j])
+            squares[((i>2)+(i>5))*3+(j>2)+(j>5)].append(grid[i][j])
+            if i not in (0,4,8) and j not in (0,4,8):
+                graysquares[(i>4)*2+(j>4)].append(grid[i][j])
+    for lis in columns + rows + squares + graysquares:
+        if len(lis) != len(set(lis)):
+            return False
+    return True
+
+
 # Determine all possible digits for cell, given digits in its row, column, square(s):
 def get_options(i, j, grid):
-    vlist   = []
-    hlist   = []
-    sqlist  = []
-    gsqlist = []
+    column   = []
+    row      = []
+    square   = []
+    graysquare = []
     for x in range(9):
         # Fill the list of (non-zero) digits found in cell row and column:
-        vlist.append(grid[x][j])
-        hlist.append(grid[i][x])
+        column.append(grid[x][j])
+        row.append(grid[i][x])
     # Determine index boundaries of square that cell belongs to:
     for p in range(((i>2)+(i>5))*3, ((i>2)+(i>5))*3+3):
         for q in range(((j>2)+(j>5))*3, ((j>2)+(j>5))*3+3):
             # Fill the list of (non-zero) digits found in square:
-            sqlist.append(grid[p][q])
+            square.append(grid[p][q])
     if len(sys.argv) > 1:
-        # If gray squares are involved and cell belongs to any of them: 
+        # If gray squares are involved and cell belongs to any of them:
         if i not in (0,4,8) and j not in (0,4,8):
             # Determine index boundaries of gray square that cell belongs to:
             for p in range((i>4)*4+1, (i>4)*4+4):
                 for q in range((j>4)*4+1, (j>4)*4+4):
                     # Fill the list of (non-zero) digits found in gray square:
-                    gsqlist.append(grid[p][q])
+                    graysquare.append(grid[p][q])
     # Return set of digits left as possible options for given cell:
-    return alldigits - set(vlist + hlist + sqlist + gsqlist)
+    return alldigits - set(column + row + square + graysquare)
 
 
 # Solve current grid, given zero count, digit option & indices of cell in question:
@@ -95,12 +115,13 @@ def solve(grid, option, i_option, j_option, zerocount):
                             i_least_options = i
                             j_least_options = j
         if zerocount == 0:
-            # No zeros present anymore, so we have a (new) solution!
-            solutions += 1
-            for i in range(9):
-                # Print solved grid solution:
-                print(grid[i])
-            print()
+            # No zeros present anymore, so if end test passes we have a (new) solution!
+            if end_test(grid):
+                solutions += 1
+                for i in range(9):
+                    # Print solved grid solution:
+                    print(grid[i])
+                print()
 #           Uncomment if only the first solution is desired:
 #           sys.exit()
 #           To next solution (total number could exceed 100000 !):
