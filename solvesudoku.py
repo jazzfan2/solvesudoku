@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Name  : solvesudoku.py
 # Author: Rob Toscani
-# Date  : 16-11-2026
+# Date  : 17-11-2026
 # Description: Solver for 9 x 9 type Sudoku problems.
 # Fill the text file 'matrix.txt' by the given digits for fields in corresponding
 # positions, and by zeros if fields are empty.
@@ -122,8 +122,8 @@ def solve(grid, option, i_option, j_option, zerocount):
                     # Print solved grid solution:
                     print(grid[i])
                 print()
-#           Uncomment if only the first solution is desired:
-#           sys.exit()
+#               Uncomment if only the first solution is desired:
+#               sys.exit()
 #           To next solution (total number could exceed 100000 !):
             return
         elif zerocount == zerocount_prev:
