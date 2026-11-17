@@ -4,7 +4,7 @@
 # Date  : 16-11-2026
 # Description: Solver for 9 x 9 type Sudoku problems.
 # Fill the text file 'matrix.txt' by the given digits for fields in corresponding 
-# positions, and by zeroes if fields are empty.
+# positions, and by zeros if fields are empty.
 # To solve a 9 x 9 type Suduku problem with additional four 3 x 3 "grey square" zones, 
 # supply any extra argument. 
 # 
@@ -33,7 +33,7 @@ import sys
 alldigits = set([1,2,3,4,5,6,7,8,9])
 solutions = 0
 
-# Determine all possible digits for cell, given digits present in its row, column and square(s):
+# Determine all possible digits for cell, given digits in its row, column, square(s):
 def get_options(i, j, grid):
     vlist   = []
     hlist   = []
@@ -49,18 +49,18 @@ def get_options(i, j, grid):
             # Fill the list of (non-zero) digits found in square:
             sqlist.append(grid[p][q])
     if len(sys.argv) > 1:
-        # If gray cell are involved and cell belongs to a gray square: 
+        # If gray squares are involved and cell belongs to any of them: 
         if i not in (0,4,8) and j not in (0,4,8):
             # Determine index boundaries of gray square that cell belongs to:
             for p in range((i>4)*4+1, (i>4)*4+4):
                 for q in range((j>4)*4+1, (j>4)*4+4):
                     # Fill the list of (non-zero) digits found in gray square:
                     gsqlist.append(grid[p][q])
-    # Return set of all digits left as an option to be placed in cell:
+    # Return set of digits left as possible options for given cell:
     return alldigits - set(vlist + hlist + sqlist + gsqlist)
 
 
-# Solve the current grid, given zero count, digit option and indices of cell in question:
+# Solve current grid, given zero count, digit option & indices of cell in question:
 def solve(grid, option, i_option, j_option, zerocount):
     global solutions
     grid = [list(x) for x in grid]  # Deep copying!
@@ -69,33 +69,33 @@ def solve(grid, option, i_option, j_option, zerocount):
         grid[i_option][j_option] = option
     zerocount_prev = zerocount
     while True:
-        # Initialize least_options set to all 9 digits:
+        # Initialize least options set to all 9 digits:
         least_options = alldigits
-        # Initialize number of zeroes:
+        # Initialize number of zeros:
         zerocount = 0
-        # Loop though all zero cells left:
+        # Loop though all remaining zero cells:
         for i in range(9):
             for j in range(9):
                 if grid[i][j] == 0:
                     # Increment zero count:
                     zerocount += 1
-                    # Determine all non-zero digit options for zero cell:
+                    # Determine all non-zero digit options possible for cell:
                     options = get_options(i, j, grid)
                     if len(options) == 1:
-                        # Only one digit option found so cell can now adopt this value:
+                        # Only one digit option found so cell must adopt this value:
                         (grid[i][j],) = options
                         zerocount -= 1
                     elif len(options) == 0:
-                         # No possible solution so grid with given option must be rejected:
+                         # No possible solution w/ current digits so stop recursion:
                         return
                     else:
-                        # >1 digit options, store (only) smallest set & its associated cell:
+                        # >1 digit options, store (only) smallest set & associated cell:
                         if len(options) < len(least_options):
                             least_options = set(options)
                             i_least_options = i
                             j_least_options = j
         if zerocount == 0:
-            # No zeroes present anymore, so we have a (new) solution!
+            # No zeros present anymore, so we have a (new) solution!
             solutions += 1
             for i in range(9):
                 # Print solved grid solution:
@@ -121,7 +121,7 @@ with open('matrix.txt') as f:
             continue
         # Fill grid with digit pattern found in text matrix:
         grid.append([int(i) for i in str(line)[0:9]])
-    # Count initial number of zeroes in grid:
+    # Count initial number of zeros in grid:
     zerocount = f.read().count('0')
 
 # Send grid to solver:
