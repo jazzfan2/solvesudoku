@@ -138,6 +138,8 @@ def solve(grid, option, i_option, j_option, zerocount):
             return
         elif zerocount == zerocount_prev:
             # If there is no progression within the iteration ...
+#           # Revisit least_options *after* nested loop (takes duplicates case to test).
+#           least_options = get_options(i_least_options, j_least_options, grid)
             for option in least_options:
                 # Fork to recursions with all options of cell w/ least number of options:
                 solve(grid, option, i_least_options, j_least_options, zerocount_prev)
